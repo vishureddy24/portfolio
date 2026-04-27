@@ -23,29 +23,32 @@ export function initialFX(refs: {
   const landing = refs.landingRef.current;
   const header = refs.headerRef.current;
 
-  // Modernized selectors matching the new React structure
-  const targets = landing.querySelectorAll(".title, .para");
-  
-  if (targets.length > 0) {
-    const landingText = new SplitText(Array.from(targets), {
-      type: "chars,lines",
-      linesClass: "split-line",
-    });
+  // Wait for fonts to load before calling SplitText
+  document.fonts.ready.then(() => {
+    // Modernized selectors matching the new React structure
+    const targets = landing.querySelectorAll(".title, .para");
+    
+    if (targets.length > 0) {
+      const landingText = new SplitText(Array.from(targets), {
+        type: "chars,lines",
+        linesClass: "split-line",
+      });
 
-    gsap.fromTo(
-      landingText.chars,
-      { opacity: 0, y: 80, filter: "blur(5px)" },
-      {
-        opacity: 1,
-        duration: 1.2,
-        filter: "blur(0px)",
-        ease: "power3.out",
-        y: 0,
-        stagger: 0.02,
-        delay: 0.3,
-      }
-    );
-  }
+      gsap.fromTo(
+        landingText.chars,
+        { opacity: 0, y: 80, filter: "blur(5px)" },
+        {
+          opacity: 1,
+          duration: 1.2,
+          filter: "blur(0px)",
+          ease: "power3.out",
+          y: 0,
+          stagger: 0.02,
+          delay: 0.3,
+        }
+      );
+    }
+  });
 
   // Animate static elements
   gsap.fromTo(
